@@ -7,6 +7,7 @@
     <meta name="description" content="A personal story about slowing down in the age of AI acceleration and finding creative renaissance through unexpected career transitions.">
     <meta name="author" content="Luis Gilberto">
     <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600&family=Inter:wght@300;400;500&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -174,18 +175,223 @@
         }
 
         /* Interactive Timeline Integration */
-        .interactive-timeline {
+        .timeline-wrapper {
             margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(42, 42, 42, 0.3);
             border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(249, 111, 110, 0.1);
         }
 
-        .interactive-timeline iframe {
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-title {
+            font-family: 'Big Shoulders Display', cursive;
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #F96F6E, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-subtitle {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .timeline-section {
+            position: relative;
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, transparent, #F96F6E, transparent);
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: timelineReveal 2s ease-out 0.5s forwards;
+        }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: #F96F6E;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(249, 111, 110, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes timelineReveal {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+                box-shadow: 0 0 20px rgba(249, 111, 110, 0.5);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.2);
+                box-shadow: 0 0 30px rgba(249, 111, 110, 0.7);
+            }
+        }
+
+        .timeline-stage {
+            position: relative;
+            margin: 80px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .timeline-stage.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-stage:nth-child(even) .stage-content {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .stage-content {
+            width: 45%;
+            padding: 25px;
+            background: rgba(42, 42, 42, 0.8);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(249, 111, 110, 0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .stage-content:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(42, 42, 42, 0.95);
+            border-color: #F96F6E;
+            box-shadow: 0 15px 30px rgba(249, 111, 110, 0.2);
+        }
+
+        .stage-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 18px;
+            height: 18px;
+            background: #F96F6E;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 0 rgba(249, 111, 110, 0.5);
+        }
+
+        .stage-dot::before {
+            content: '';
+            position: absolute;
             width: 100%;
-            height: 800px;
-            border: none;
-            display: block;
+            height: 100%;
+            border-radius: 50%;
+            background: #F96F6E;
+            animation: ripple 2s infinite;
+        }
+
+        .timeline-stage:hover .stage-dot {
+            transform: translate(-50%, -50%) scale(1.4);
+            box-shadow: 0 0 0 15px transparent;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .stage-icon {
+            font-size: 1.8rem;
+            color: #F96F6E;
+            margin-bottom: 12px;
+        }
+
+        .stage-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .stage-main {
+            font-size: 1rem;
+            color: #F96F6E;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .stage-detail {
+            color: #a0a0a0;
+            font-weight: 300;
+            opacity: 0;
+            max-height: 0;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .stage-content:hover .stage-detail {
+            opacity: 1;
+            max-height: 80px;
+            margin-top: 12px;
+        }
+
+        /* Timeline Responsive Design */
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 30px;
+            }
+            
+            .stage-content {
+                width: calc(100% - 80px);
+                margin-left: 60px !important;
+                text-align: left !important;
+            }
+            
+            .stage-dot {
+                left: 30px;
+            }
+            
+            .timeline-title {
+                font-size: 2rem;
+            }
+            
+            .timeline-wrapper {
+                padding: 1.5rem;
+            }
         }
 
         /* Typography */
@@ -407,197 +613,66 @@
             <p>It was uncomfortable. And exactly what I needed.</p>
 
             <!-- Interactive Timeline -->
-            <div class="interactive-timeline">
-                <iframe src="data:text/html;charset=utf-8,<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Luis's Interactive Transition Journey</title>
-    <link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap' rel='stylesheet'>
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css'>
-    <style>
-        :root {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2a2a2a;
-            --coral: #D17067;
-            --coral-glow: rgba(209, 112, 103, 0.3);
-            --white: #ffffff;
-            --light-gray: #a0a0a0;
-            --dark-gray: #404040;
-        }
+            <div class="timeline-wrapper">
+                <div class="timeline-header">
+                    <h3 class="timeline-title">The Transition Timeline</h3>
+                    <p class="timeline-subtitle">An interactive journey through creative transformation</p>
+                </div>
+                
+                <div class="timeline-section">
+                    <div class="timeline-container">
+                        <div class="timeline-line"></div>
+                        
+                        <div class="timeline-stage" data-stage="1">
+                            <div class="stage-content">
+                                <div class="stage-icon">
+                                    <i class="fas fa-door-open"></i>
+                                </div>
+                                <h4 class="stage-title">Corporate Exit</h4>
+                                <p class="stage-main">Unexpected career pivot</p>
+                                <p class="stage-detail">Stepping away from the corporate drumbeat</p>
+                            </div>
+                            <div class="stage-dot"></div>
+                        </div>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+                        <div class="timeline-stage" data-stage="2">
+                            <div class="stage-content">
+                                <div class="stage-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <h4 class="stage-title">The Withdrawal</h4>
+                                <p class="stage-main">Missing the validation drumbeat</p>
+                                <p class="stage-detail">Wrestling with identity outside institutional frameworks</p>
+                            </div>
+                            <div class="stage-dot"></div>
+                        </div>
 
-        html {
-            scroll-behavior: smooth;
-        }
+                        <div class="timeline-stage" data-stage="3">
+                            <div class="stage-content">
+                                <div class="stage-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h4 class="stage-title">Curiosity Returns</h4>
+                                <p class="stage-main">Building without deliverables</p>
+                                <p class="stage-detail">Rediscovering creative flow without KPIs</p>
+                            </div>
+                            <div class="stage-dot"></div>
+                        </div>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--white);
-            overflow-x: hidden;
-            line-height: 1.6;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.1;
-        }
-
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, var(--coral-glow), transparent);
-            border-radius: 50%;
-            top: 20%;
-            left: 10%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .bg-animation::after {
-            content: '';
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, var(--coral-glow), transparent);
-            border-radius: 50%;
-            bottom: 20%;
-            right: 15%;
-            animation: float 8s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) translateX(0px); }
-            33% { transform: translateY(-20px) translateX(10px); }
-            66% { transform: translateY(10px) translateX(-15px); }
-        }
-
-        /* Header */
-        header {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .main-title {
-            font-size: clamp(2rem, 5vw, 2.5rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--white), var(--coral));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            animation: titleSlideIn 1s ease-out;
-        }
-
-        .subtitle {
-            font-size: 1rem;
-            color: var(--light-gray);
-            font-weight: 300;
-            animation: subtitleFadeIn 1s ease-out 0.3s both;
-        }
-
-        @keyframes titleSlideIn {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes subtitleFadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Timeline Section */
-        .timeline-section {
-            padding: 40px 0;
-            position: relative;
-        }
-
-        .timeline-container {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(to bottom, transparent, var(--coral), transparent);
-            transform: translateX(-50%);
-            opacity: 0;
-            animation: timelineReveal 2s ease-out 0.5s forwards;
-        }
-
-        .timeline-line::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 16px;
-            height: 16px;
-            background: var(--coral);
-            border-radius: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 15px var(--coral-glow);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes timelineReveal {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: translateX(-50%) scale(1);
-                box-shadow: 0 0 15px var(--coral-glow);
-            }
-            50% {
-                transform: translateX(-50%) scale(1.2);
-                box-shadow: 0 0 25px var(--coral-glow);
-            }
-        }
-
-        .timeline-stage {
-            position: relative;
-            margin: 60px 0;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
+                        <div class="timeline-stage" data-stage="4">
+                            <div class="stage-content">
+                                <div class="stage-icon">
+                                    <i class="fas fa-palette"></i>
+                                </div>
+                                <h4 class="stage-title">Creative Renaissance</h4>
+                                <p class="stage-main">Portfolio as playground</p>
+                                <p class="stage-detail">Embracing experimentation over optimization</p>
+                            </div>
+                            <div class="stage-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
 
         .timeline-stage.animate {
@@ -1169,6 +1244,48 @@
                 goToPage(parseInt(e.key));
             }
         });
+
+        // Timeline Animation Functionality
+        function initTimelineAnimations() {
+            // Intersection Observer for timeline animations
+            const observerOptions = {
+                threshold: 0.2,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe timeline stages
+            document.querySelectorAll('.timeline-stage').forEach(stage => {
+                observer.observe(stage);
+            });
+
+            // Enhanced hover effects for stage content
+            document.querySelectorAll('.stage-content').forEach(content => {
+                content.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                content.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        }
+
+        // Initialize timeline when page 3 is shown
+        const originalUpdatePage = updatePage;
+        updatePage = function() {
+            originalUpdatePage();
+            if (currentPage === 3) {
+                setTimeout(initTimelineAnimations, 100);
+            }
+        };
 
         // Initialize
         updatePage();
