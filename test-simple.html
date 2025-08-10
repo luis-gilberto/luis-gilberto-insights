@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Article</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #f5f5f5;
+            padding: 2rem;
+        }
+        .page {
+            display: none;
+            padding: 2rem;
+            border: 1px solid #333;
+            margin: 1rem 0;
+        }
+        .page.active {
+            display: block;
+        }
+        .nav-btn {
+            background: #F96F6E;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Article Test</h1>
+    
+    <div class="page active" id="page1">
+        <h2>Page 1: Introduction</h2>
+        <p>This is page 1 content. If you can see this, the basic structure is working.</p>
+    </div>
+    
+    <div class="page" id="page2">
+        <h2>Page 2: Content</h2>
+        <p>This is page 2 content. Navigation should show/hide this.</p>
+    </div>
+    
+    <div class="page" id="page3">
+        <h2>Page 3: More Content</h2>
+        <p>This is page 3 content. Testing page switching functionality.</p>
+    </div>
+    
+    <div class="page" id="page4">
+        <h2>Page 4: Final</h2>
+        <p>This is page 4 content. Last page of the test.</p>
+    </div>
+    
+    <div>
+        <button class="nav-btn" onclick="goToPage(1)">Page 1</button>
+        <button class="nav-btn" onclick="goToPage(2)">Page 2</button>
+        <button class="nav-btn" onclick="goToPage(3)">Page 3</button>
+        <button class="nav-btn" onclick="goToPage(4)">Page 4</button>
+    </div>
+    
+    <script>
+        let currentPage = 1;
+        
+        function goToPage(page) {
+            console.log('Going to page:', page);
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            
+            // Show target page
+            const targetPage = document.getElementById('page' + page);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                currentPage = page;
+                console.log('Page switched to:', page);
+            } else {
+                console.error('Page not found:', page);
+            }
+        }
+        
+        // Test on load
+        console.log('Script loaded, current page:', currentPage);
+        console.log('Available pages:', document.querySelectorAll('.page').length);
+    </script>
+</body>
+</html>
