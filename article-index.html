@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Timeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #f5f5f5;
+            line-height: 1.7;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .timeline-wrapper {
+            margin: 0;
+            padding: 2rem;
+            background: rgba(42, 42, 42, 0.3);
+            border-radius: 16px;
+            border: 1px solid rgba(249, 111, 110, 0.1);
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-title {
+            font-family: 'Big Shoulders Display', cursive;
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #F96F6E, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-subtitle {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .timeline-section {
+            position: relative;
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, transparent, #F96F6E, transparent);
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: timelineReveal 2s ease-out 0.5s forwards;
+        }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: #F96F6E;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(249, 111, 110, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes timelineReveal {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+                box-shadow: 0 0 20px rgba(249, 111, 110, 0.5);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.2);
+                box-shadow: 0 0 30px rgba(249, 111, 110, 0.7);
+            }
+        }
+
+        .timeline-stage {
+            position: relative;
+            margin: 80px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .timeline-stage.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-stage:nth-child(even) .stage-content {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .stage-content {
+            width: 45%;
+            padding: 25px;
+            background: rgba(42, 42, 42, 0.8);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(249, 111, 110, 0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .stage-content:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(42, 42, 42, 0.95);
+            border-color: #F96F6E;
+            box-shadow: 0 15px 30px rgba(249, 111, 110, 0.2);
+        }
+
+        .stage-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 18px;
+            height: 18px;
+            background: #F96F6E;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 0 rgba(249, 111, 110, 0.5);
+        }
+
+        .stage-dot::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #F96F6E;
+            animation: ripple 2s infinite;
+        }
+
+        .timeline-stage:hover .stage-dot {
+            transform: translate(-50%, -50%) scale(1.4);
+            box-shadow: 0 0 0 15px transparent;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .stage-icon {
+            font-size: 1.8rem;
+            color: #F96F6E;
+            margin-bottom: 12px;
+        }
+
+        .stage-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .stage-main {
+            font-size: 1rem;
+            color: #F96F6E;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .stage-detail {
+            color: #a0a0a0;
+            font-weight: 300;
+            opacity: 0;
+            max-height: 0;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .stage-content:hover .stage-detail {
+            opacity: 1;
+            max-height: 80px;
+            margin-top: 12px;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(249, 111, 110, 0.2);
+        }
+
+        .section-title {
+            font-family: 'Big Shoulders Display', cursive;
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #F96F6E, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: rgba(42, 42, 42, 0.6);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(249, 111, 110, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: toolReveal 0.6s ease-out forwards;
+        }
+
+        .tool-card:nth-child(1) { animation-delay: 0.1s; }
+        .tool-card:nth-child(2) { animation-delay: 0.2s; }
+        .tool-card:nth-child(3) { animation-delay: 0.3s; }
+        .tool-card:nth-child(4) { animation-delay: 0.4s; }
+        .tool-card:nth-child(5) { animation-delay: 0.5s; }
+        .tool-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes toolReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: #F96F6E;
+            box-shadow: 0 10px 25px rgba(249, 111, 110, 0.2);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            color: #F96F6E;
+            margin-bottom: 1rem;
+        }
+
+        .tool-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-description {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            font-weight: 300;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .timeline-wrapper {
+                padding: 1.5rem;
+            }
+            
+            .timeline-line {
+                left: 30px;
+            }
+            
+            .stage-content {
+                width: calc(100% - 80px);
+                margin-left: 60px !important;
+                text-align: left !important;
+            }
+            
+            .stage-dot {
+                left: 30px;
+            }
+            
+            .timeline-title {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-wrapper">
+        <div class="timeline-header">
+            <h2 class="timeline-title">Interactive Timeline</h2>
+            <p class="timeline-subtitle">The journey from corporate burnout to creative renaissance</p>
+        </div>
+        
+        <div class="timeline-section">
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-stage">
+                    <div class="stage-content">
+                        <div class="stage-icon">🏢</div>
+                        <h3 class="stage-title">Corporate Exit</h3>
+                        <p class="stage-main">Leaving Microsoft after years of high-impact work</p>
+                        <p class="stage-detail">The end of an era that shaped my strategic thinking and creative approach to storytelling at scale.</p>
+                    </div>
+                    <div class="stage-dot"></div>
+                </div>
+                
+                <div class="timeline-stage">
+                    <div class="stage-content">
+                        <div class="stage-icon">😵‍💫</div>
+                        <h3 class="stage-title">The Withdrawal</h3>
+                        <p class="stage-main">Breaking the addiction to productivity</p>
+                        <p class="stage-detail">Confronting the uncomfortable reality of slowing down and questioning everything I thought I knew about success.</p>
+                    </div>
+                    <div class="stage-dot"></div>
+                </div>
+                
+                <div class="timeline-stage">
+                    <div class="stage-content">
+                        <div class="stage-icon">🔍</div>
+                        <h3 class="stage-title">Curiosity Returns</h3>
+                        <p class="stage-main">Rediscovering genuine interest in learning</p>
+                        <p class="stage-detail">The moment when curiosity shifted from performative to authentic, leading to late nights of excitement rather than anxiety.</p>
+                    </div>
+                    <div class="stage-dot"></div>
+                </div>
+                
+                <div class="timeline-stage">
+                    <div class="stage-content">
+                        <div class="stage-icon">🎨</div>
+                        <h3 class="stage-title">Creative Renaissance</h3>
+                        <p class="stage-main">Building luis-gilberto.com from scratch</p>
+                        <p class="stage-detail">Combining strategy, design, and storytelling into a cohesive digital experience that truly represents who I am.</p>
+                    </div>
+                    <div class="stage-dot"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tools-section">
+            <h3 class="section-title">Tools That Shaped The Process</h3>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">🎨</div>
+                    <div class="tool-name">Framer</div>
+                    <div class="tool-description">Design & prototyping platform</div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">🤖</div>
+                    <div class="tool-name">Claude AI</div>
+                    <div class="tool-description">Creative coding companion</div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">💻</div>
+                    <div class="tool-name">Cursor</div>
+                    <div class="tool-description">AI-powered code editor</div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">📝</div>
+                    <div class="tool-name">Notion</div>
+                    <div class="tool-description">Content planning & organization</div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">🎵</div>
+                    <div class="tool-name">Spotify</div>
+                    <div class="tool-description">Creative flow soundtrack</div>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">☕</div>
+                    <div class="tool-name">Coffee</div>
+                    <div class="tool-description">Essential fuel for late-night coding</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize timeline animations
+        function initTimelineAnimations() {
+            const timelineStages = document.querySelectorAll('.timeline-stage');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+            
+            timelineStages.forEach(stage => {
+                observer.observe(stage);
+                
+                // Add hover effects
+                const stageContent = stage.querySelector('.stage-content');
+                if (stageContent) {
+                    stageContent.addEventListener('mouseenter', () => {
+                        stage.style.transform = 'scale(1.02)';
+                    });
+                    
+                    stageContent.addEventListener('mouseleave', () => {
+                        stage.style.transform = 'scale(1)';
+                    });
+                }
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initTimelineAnimations, 500);
+        });
+    </script>
+</body>
+</html>

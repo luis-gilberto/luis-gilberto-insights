@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move at the Speed of What Matters - Luis Gilberto</title>
+    <meta name="description" content="A personal story about slowing down in the age of AI acceleration and finding creative renaissance through unexpected career transitions.">
+    <meta name="author" content="Luis Gilberto">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600&family=Inter:wght@300;400;500&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #f5f5f5;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #F96F6E, #FF8F7A);
+            width: 25%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(249, 111, 110, 0.5);
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(42, 42, 42, 0.9);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 1px solid rgba(249, 111, 110, 0.3);
+            color: #f5f5f5;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, #F96F6E, #FF8F7A);
+            border-color: #F96F6E;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 111, 110, 0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .nav-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+            background: transparent;
+        }
+
+        /* Page indicators */
+        .page-indicators {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0 1rem;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .page-dot.active {
+            background: #F96F6E;
+            transform: scale(1.2);
+        }
+
+        /* Main container */
+        .article-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem 8rem;
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .content-area {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-sidebar {
+            position: sticky;
+            top: 2rem;
+            height: calc(100vh - 4rem);
+            overflow-y: auto;
+            padding: 2rem;
+            background: rgba(42, 42, 42, 0.3);
+            border-radius: 16px;
+            border: 1px solid rgba(249, 111, 110, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(249, 111, 110, 0.2);
+        }
+
+        .timeline-sidebar .timeline-title {
+            font-family: 'Big Shoulders Display', cursive;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #F96F6E, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-sidebar .timeline-subtitle {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .timeline-content {
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #F96F6E, transparent);
+            opacity: 0.6;
+        }
+
+        .timeline-stage {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 3rem;
+            opacity: 0.6;
+            transition: all 0.4s ease;
+        }
+
+        .timeline-stage.active {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .stage-dot {
+            position: absolute;
+            left: 14px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: #666;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(42, 42, 42, 1);
+        }
+
+        .timeline-stage.active .stage-dot {
+            background: #F96F6E;
+            box-shadow: 0 0 15px rgba(249, 111, 110, 0.5);
+            transform: scale(1.2);
+        }
+
+        .stage-content {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stage-content:hover {
+            transform: translateY(-2px);
+        }
+
+        .stage-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stage-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+
+        .stage-description {
+            font-size: 0.85rem;
+            color: #F96F6E;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .stage-detail {
+            font-size: 0.75rem;
+            color: #a0a0a0;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .tools-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(249, 111, 110, 0.2);
+        }
+
+        .tools-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(42, 42, 42, 0.4);
+            border-radius: 8px;
+            border: 1px solid rgba(249, 111, 110, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tool-item:hover {
+            border-color: #F96F6E;
+            transform: translateY(-2px);
+        }
+
+        .tool-item .tool-icon {
+            font-size: 1rem;
+        }
+
+        .tool-item .tool-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            animation: none;
+            min-height: 70vh;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Hero section */
+        .hero {
+            margin-bottom: 4rem;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 16px;
+        }
+
+        /* Website link styling */
+        .website-link {
+            color: #F96F6E;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(249, 111, 110, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .website-link:hover {
+            border-bottom-color: #F96F6E;
+            text-shadow: 0 0 8px rgba(249, 111, 110, 0.3);
+        }
+
+
+
+        /* Typography */
+        .page h2 {
+            font-family: 'Big Shoulders Display', cursive;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: #F96F6E;
+            margin: 2.5rem 0 1.5rem;
+            font-weight: 600;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .page p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-bottom: 1.8rem;
+            color: rgba(245, 245, 245, 0.95);
+            font-weight: 400;
+        }
+
+        blockquote {
+            background: linear-gradient(135deg, rgba(249, 111, 110, 0.1), rgba(255, 143, 122, 0.05));
+            border-left: 4px solid #F96F6E;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: rgba(245, 245, 245, 0.9);
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        blockquote::before {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(249, 111, 110, 0.3);
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-family: 'Inter', serif;
+        }
+
+        /* AI Paradox Image */
+        .supplemental-graphic {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Interactive elements */
+        .comment-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(245, 245, 245, 0.98));
+            color: #1a1a1a;
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .comment-section h3 {
+            font-family: 'Big Shoulders Display', cursive;
+            color: #F96F6E;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .comment-section textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(249, 111, 110, 0.3);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .comment-section button {
+            background: linear-gradient(135deg, #F96F6E, #FF8F7A);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .comment-section button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 111, 110, 0.4);
+        }
+
+        /* Chart container - FIXED */
+        .chart-container {
+            background: rgba(26, 26, 26, 0.6);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 300px;
+            position: relative;
+        }
+
+        .chart-container h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: rgba(245, 245, 245, 0.8);
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .chart-container canvas {
+            max-height: 220px !important;
+        }
+
+        /* Teaser */
+        .teaser {
+            margin-top: 3rem;
+            font-style: italic;
+            color: rgba(204, 204, 204, 0.8);
+            text-align: center;
+            font-size: 1.1rem;
+            padding: 2rem;
+            background: rgba(249, 111, 110, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(249, 111, 110, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .article-container {
+                max-width: 100%;
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 3rem 2rem 8rem;
+            }
+            
+            .content-area {
+                max-width: 100%;
+            }
+            
+            .timeline-sidebar {
+                position: static;
+                height: auto;
+                margin-top: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .article-container {
+                padding: 2rem 1rem 8rem;
+            }
+            
+            .content-area {
+                max-width: 100%;
+            }
+            
+            .nav-container {
+                flex-wrap: wrap;
+                bottom: 1rem;
+                left: 1rem;
+                right: 1rem;
+                transform: none;
+                padding: 1rem;
+            }
+            
+            .nav-btn {
+                flex: 1;
+                justify-content: center;
+                min-width: 80px;
+                font-size: 0.8rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .chart-container {
+                height: 250px;
+                padding: 1rem;
+            }
+
+            .chart-container canvas {
+                max-height: 180px !important;
+            }
+            
+            .page h2 {
+                font-size: clamp(1.5rem, 5vw, 2rem);
+            }
+            
+            .page p {
+                font-size: clamp(0.9rem, 3vw, 1.1rem);
+            }
+            
+            blockquote {
+                padding: 1.5rem;
+                margin: 2rem 0;
+                font-size: 1rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .article-container {
+                padding: 1.5rem 0.75rem 8rem;
+            }
+            
+            .nav-container {
+                padding: 0.75rem;
+                gap: 0.5rem;
+            }
+            
+            .nav-btn {
+                font-size: 0.75rem;
+                padding: 0.5rem 0.75rem;
+            }
+            
+            .chart-container {
+                height: 200px;
+                padding: 0.75rem;
+            }
+            
+            .timeline-sidebar {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="article-container">
+        <div class="content-area">
+            <!-- Page 1: Introduction -->
+            <div class="page active" id="page1">
+                <div class="hero">
+                    <img src="https://i.postimg.cc/Y9VHYPcD/banner-for-article-01.png" alt="Move at the Speed of What Matters" class="hero-image">
+                </div>
+                
+                <p>If there's one thing I've learned in this season of reinvention, it's that every setback comes with a hidden syllabus. It's a curriculum you don't ask for, but one that teaches you more than any title ever could… if you're willing to lean in and listen.</p>
+                
+                <p>My time at Microsoft shaped me in countless ways: strategically, creatively, and professionally. But it was what came after that taught me the most about myself.</p>
+                
+                <p>After years of contributing to high-impact campaigns and storytelling at scale, I found myself facing an unexpected career pivot. Not by choice—but perhaps by design. This wasn't just time off. It was time in. Time to get quiet, curious, and intentional. I broke the productivity spell, reconnected with my creative rhythm, and started asking questions about what success could look like on my own terms.</p>
+            </div>
+        </div>
+
+        <div class="timeline-sidebar">
+            <div class="timeline-header">
+                <div class="timeline-title">Corporate Exit</div>
+                <div class="timeline-subtitle">Leaving Microsoft after years of high-impact work</div>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-line"></div>
+                <div class="timeline-stage active">
+                    <div class="stage-dot"></div>
+                    <div class="stage-content">
+                        <div class="stage-icon">1️⃣</div>
+                        <div class="stage-title">The Comedown</div>
+                        <div class="stage-description">From Adrenaline to Empty Space</div>
+                        <div class="stage-detail">The abrupt shift from high-stakes launches and constant deadlines to unstructured days left me restless and unmoored.</div>
+                    </div>
+                </div>
+                <div class="timeline-stage">
+                    <div class="stage-dot"></div>
+                    <div class="stage-content">
+                        <div class="stage-icon">2️⃣</div>
+                        <div class="stage-title">The Identity Gap</div>
+                        <div class="stage-description">Who Am I Without the Badge?</div>
+                        <div class="stage-detail">Losing the corporate role that had defined me for years sparked a quiet crisis of purpose and self-worth.</div>
+                    </div>
+                </div>
+                <div class="timeline-stage">
+                    <div class="stage-dot"></div>
+                    <div class="stage-content">
+                        <div class="stage-icon">3️⃣</div>
+                        <div class="stage-title">The Overcorrection</div>
+                        <div class="stage-description">Filling the Void with More Doing</div>
+                        <div class="stage-detail">In an attempt to outrun the unease, I pushed myself into every project, task, and idea — unknowingly speeding toward burnout.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- Page 2: The AI Speed Paradox -->
+            <div class="page" id="page2">
+                        <h2>The AI Speed Paradox</h2>
+                        
+                        <img src="https://i.imgur.com/70AFfI1.png" alt="AI Speed Paradox" class="supplemental-graphic">
+                        
+                        <p>Right before my transition, a mantra began echoing across the organization: "Move at the speed of AI." Each time I heard it, something in me tightened; because the truth is, we're not machines. We're human. And sometimes the most radical move you can make is to slow down.</p>
+                        
+                        <p>I didn't realize how addicted I'd become to being productive until I stopped. The first few weeks were jarring. I didn't miss the meetings or inbox chaos. I missed the validation. I had no sprint to run, no one to impress, and no reason to polish executive updates or PowerPoint decks at 11:58 PM. Without that drumbeat of urgency, I felt lost, floaty, and untethered.</p>
+                        
+                        <p>That was the withdrawal.</p>
+                        
+                        <blockquote>We are not machines. We're not built for infinite acceleration. And pretending we are, while catchy, is the kind of logic that burns out great people under the banner of innovation.</blockquote>
+                        
+                        <div class="chart-container">
+                            <h3>The Journey: Output vs. Meaningful Impact</h3>
+                            <canvas id="journeyChart"></canvas>
+                        </div>
+            </div>
+        </div>
+
+        <div class="timeline-sidebar">
+            <div class="timeline-header">
+                <div class="timeline-title">The Withdrawal</div>
+                <div class="timeline-subtitle">Breaking the Cycle</div>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-line"></div>
+                <div class="timeline-stage active">
+                    <div class="stage-dot"></div>
+                    <div class="stage-content">
+                        <div class="stage-icon">⚡</div>
+                        <div class="stage-title">The Grip</div>
+                        <div class="stage-description">Productivity Fixation</div>
+                        <div class="stage-detail">Realizing how hooked I'd become on the rush of constant output and external approval.</div>
+                    </div>
+                </div>
+                <div class="timeline-stage">
+                    <div class="stage-dot"></div>
+                    <div class="stage-content">
+                        <div class="stage-icon">🔇</div>
+                        <div class="stage-title">Craving the Noise</div>
+                        <div class="stage-description">The Silence</div>
+                        <div class="stage-detail">The unnerving void left when the meetings, deadlines, and urgent pings stopped.</div>
+                    </div>
+                </div>
+                <div class="timeline-stage">
+                    <div class="stage-dot"></div>
+                    <div class="stage-content">
+                        <div class="stage-icon">🌊</div>
+                        <div class="stage-title">Adrift Without the Anchor</div>
+                        <div class="stage-description">Lost at Sea</div>
+                        <div class="stage-detail">Untethered without the steady beat of motion, milestones, and purpose.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- Page 3: Rediscovery -->
+            <div class="page" id="page3">
+                        <p>So, I slowed down. I gave myself permission to stop optimizing every second. I learned things that had no deliverables. I sat with discomfort instead of trying to outrun it. I took silent walks. Cooked meals for no reason. Measured my days not by output, but by alignment.</p>
+                        
+                        <p>It was uncomfortable. And exactly what I needed.</p>
+                        
+                        <h2>A Website, a Blank Page, and the Return of Curiosity</h2>
+                        
+                        <p>Once the noise quieted, curiosity came back. Real curiosity. Not the performative kind you add to LinkedIn bios. The kind that keeps you up late, not from anxiety, but from excitement.</p>
+                        
+                        <p>That's how my portfolio site was born. No agency. No team. Just me, a blank Framer canvas, some AI-powered sidekicks, and one big question: what would it look like to design something that feels like me?</p>
+                        
+                        <p>It turned out to be more than a website. It became a playground for everything I'd been learning and unlearning. Branding, typography, UX, storytelling—I pieced it all together intuitively, imperfectly, and proudly at <a href="https://luis-gilberto.com" target="_blank" class="website-link">luis-gilberto.com</a>.</p>
+                        
+                        <p>Somewhere between debugging CSS and choosing font weights, I realized I wasn't just building a portfolio. I was rebuilding myself.</p>
+            </div>
+        </div>
+
+        <div class="timeline-sidebar">
+            <div class="timeline-header">
+                <div class="timeline-title">The Discovery</div>
+                <div class="timeline-subtitle">Finding New Rhythms</div>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-line"></div>
+                <div class="timeline-stage active">
+                    <div class="stage-dot"></div>
+                    <div class="stage-content">
+                        <div class="stage-icon">🕊️</div>
+                        <div class="stage-title">Permission to Slow</div>
+                        <div class="stage-description">Breaking the Spell</div>
+                        <div class="stage-detail">Giving myself space to stop optimizing every moment and breathe.</div>
+                    </div>
+                </div>
+                <div class="timeline-stage">
+                    <div class="stage-dot"></div>
+                    <div class="stage-content">
+                        <div class="stage-icon">✨</div>
+                        <div class="stage-title">Return of Curiosity</div>
+                        <div class="stage-description">Real Wonder</div>
+                        <div class="stage-detail">Authentic curiosity emerged once the noise quieted down.</div>
+                    </div>
+                </div>
+                <div class="timeline-stage">
+                    <div class="stage-dot"></div>
+                    <div class="stage-content">
+                        <div class="stage-icon">🏗️</div>
+                        <div class="stage-title">Building & Rebuilding</div>
+                        <div class="stage-description">Creative Renaissance</div>
+                        <div class="stage-detail">Creating a portfolio became rebuilding myself from the ground up.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- Page 4: Conclusion & Engagement -->
+            <div class="page" id="page4">
+                        <h2>Rest Isn't the End. Sometimes It's the Beginning.</h2>
+                        
+                        <p>If you're in a season of uncertainty; feeling underestimated, unmoored, or just plain tired: you're not broken. You may simply be between versions. And what's emerging might surprise you.</p>
+                        
+                        <div class="comment-section">
+                            <h3>What has slowing down helped you discover about yourself?</h3>
+                            <p>I'd love to hear your thoughts and experiences below.</p>
+                            <form>
+                                <textarea rows="4" placeholder="Share your reflection..."></textarea>
+                                <button type="submit">Submit Reflection</button>
+                            </form>
+                        </div>
+                        
+                        <div class="teaser">
+                            <strong>Next up:</strong> How I Use AI Without Losing the Human Touch<br>
+                            <em>...and what I won't let it take from me.</em>
+                        </div>
+            </div>
+        </div>
+
+        <div class="timeline-sidebar">
+            <div class="timeline-header">
+                <div class="timeline-title">Tools & Technologies</div>
+                <div class="timeline-subtitle">The Creative Arsenal</div>
+            </div>
+            <div class="tools-section">
+                <h3>Design & Development</h3>
+                <div class="tools-grid">
+                    <div class="tool-item">
+                        <div class="tool-icon">🎭</div>
+                        <div class="tool-name">Framer</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">🎨</div>
+                        <div class="tool-name">Figma</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">⚛️</div>
+                        <div class="tool-name">React</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">🎯</div>
+                        <div class="tool-name">TypeScript</div>
+                    </div>
+                </div>
+                <h3>AI Assistants</h3>
+                <div class="tools-grid">
+                    <div class="tool-item">
+                        <div class="tool-icon">🤖</div>
+                        <div class="tool-name">ChatGPT</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">🧠</div>
+                        <div class="tool-name">Claude</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">⚡</div>
+                        <div class="tool-name">Copilot</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">💎</div>
+                        <div class="tool-name">GenSpark</div>
+                    </div>
+                </div>
+                <h3>Development & Deployment</h3>
+                <div class="tools-grid">
+                    <div class="tool-item">
+                        <div class="tool-icon">🌐</div>
+                        <div class="tool-name">Next.js</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">🔧</div>
+                        <div class="tool-name">Node.js</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">📊</div>
+                        <div class="tool-name">Chart.js</div>
+                    </div>
+                    <div class="tool-item">
+                        <div class="tool-icon">💾</div>
+                        <div class="tool-name">PostgreSQL</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <button class="nav-btn" id="prevBtn" onclick="changePage(-1)">← Previous</button>
+        <div class="page-indicators">
+            <div class="page-dot active" onclick="goToPage(1)"></div>
+            <div class="page-dot" onclick="goToPage(2)"></div>
+            <div class="page-dot" onclick="goToPage(3)"></div>
+            <div class="page-dot" onclick="goToPage(4)"></div>
+        </div>
+        <button class="nav-btn" id="nextBtn" onclick="changePage(1)">Next →</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let currentPage = 1;
+        const totalPages = 4;
+
+        function updatePage() {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show current page
+            document.getElementById(`page${currentPage}`).classList.add('active');
+            
+            // Update progress bar
+            const progress = (currentPage / totalPages) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+            
+            // Update page indicators
+            document.querySelectorAll('.page-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index + 1 === currentPage);
+            });
+            
+
+            
+            // Initialize chart on page 2
+            if (currentPage === 2) {
+                setTimeout(initChart, 100);
+            }
+        }
+        
+
+
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                updatePage();
+            }
+        }
+
+        function goToPage(page) {
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                updatePage();
+            }
+        }
+
+        function initChart() {
+            const canvas = document.getElementById('journeyChart');
+            if (!canvas || canvas.chart) return;
+            
+            const ctx = canvas.getContext('2d');
+            canvas.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Corporate Peak', 'Burnout Point', 'Transition', 'Slowing Down', 'Alignment'],
+                    datasets: [{
+                        label: 'Productivity Output',
+                        data: [95, 85, 30, 45, 70],
+                        borderColor: '#F96F6E',
+                        backgroundColor: 'rgba(249, 111, 110, 0.1)',
+                        tension: 0.4,
+                        pointBackgroundColor: '#F96F6E',
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        borderWidth: 3
+                    }, {
+                        label: 'Meaningful Impact',
+                        data: [60, 40, 20, 65, 90],
+                        borderColor: '#4ade80',
+                        backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                        tension: 0.4,
+                        pointBackgroundColor: '#4ade80',
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#f5f5f5',
+                                font: {
+                                    family: 'Inter',
+                                    size: 12
+                                },
+                                padding: 20
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#ccc',
+                                font: {
+                                    family: 'Inter',
+                                    size: 10
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#ccc',
+                                font: {
+                                    family: 'Inter',
+                                    size: 10
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                changePage(-1);
+            } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                changePage(1);
+            } else if (e.key >= '1' && e.key <= '4') {
+                goToPage(parseInt(e.key));
+            }
+        });
+
+
+
+        // Initialize
+        updatePage();
+    </script>
+</body>
+</html>
