@@ -894,15 +894,11 @@
                 dot.classList.toggle('active', index + 1 === currentPage);
             });
             
-
-            
             // Initialize chart on page 3
             if (currentPage === 3) {
                 setTimeout(initChart, 100);
             }
         }
-        
-
 
         function changePage(direction) {
             const newPage = currentPage + direction;
